@@ -50,6 +50,7 @@ set(EXERCISES
     # Aula3CG
     CuboIluminacao
     TrabalhoRenderizacaoTextura
+    CameraFPS
 )
 
 add_compile_options(-Wno-pragmas)
