@@ -51,6 +51,7 @@ set(EXERCISES
     CuboIluminacao
     TrabalhoRenderizacaoTextura
     CameraFPS
+    Trajetorias
 )
 
 add_compile_options(-Wno-pragmas)
