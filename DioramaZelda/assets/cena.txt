@@ -1,0 +1,37 @@
+# ============================================================
+#  Cena do Diorama Zelda (Hyrule)
+#  Lido por loadScene() em DioramaZelda/src/main.cpp
+#  Caminhos relativos a build/ (rode o programa de dentro de build/)
+#
+#  light  <nome> on|off  px py pz   r g b   intensidade
+#  object <nome> <geom>  <mtl|-|COL:r,g,b>  <tex|->  px py pz  escala  [spin]
+#  waypoint x y z   -> anexa ponto de trajetoria (Bezier) ao ultimo objeto
+# ============================================================
+
+# ----- Iluminacao de 3 pontos (Phong) -----
+light key  on    6  7  5    1.00 0.95 0.80   1.0
+light fill on   -7  4  4    0.45 0.55 0.90   0.5
+light back on    0  5 -8    0.90 0.75 0.40   0.8
+
+# ----- Objetos da cena -----
+
+# [0] Chao de grama de Hyrule
+object Chao    PROC:ground   COL:0.16,0.42,0.18   -                              0  0.0  0   1.0
+
+# [1] Triforce dourado (gira sozinho)
+object Triforce PROC:triforce COL:1.0,0.84,0.0     -                              0  2.2  0   1.2  spin
+
+# [2] Bau (cubo com textura)
+object Bau     PROC:cube      -                    ../assets/tex/pixelWall.png    3  0.5  1   1.0
+
+# [3] Boss (Suzanne com material .mtl + textura)
+object Boss    ../assets/Modelos3D/Suzanne.obj  ../assets/Modelos3D/Suzanne.mtl  ../assets/Modelos3D/Suzanne.png   -3  1.2  0   1.0
+
+# [4] Rupia verde percorrendo uma curva de Bezier fechada
+object Rupia   PROC:rupee     COL:0.10,0.90,0.50   -                              0  1.5  4   0.8
+waypoint  0  1.5  4
+waypoint  4  2.0  2
+waypoint  4  1.5 -2
+waypoint  0  2.5 -4
+waypoint -4  1.5 -2
+waypoint -4  2.0  2

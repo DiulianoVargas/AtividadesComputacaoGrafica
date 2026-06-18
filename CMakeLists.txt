@@ -81,3 +81,14 @@ foreach(EXERCISE ${EXERCISES})
     target_include_directories(${EXERCISE} PRIVATE ${CMAKE_SOURCE_DIR}/include/glad ${glm_SOURCE_DIR} ${stb_image_SOURCE_DIR})
     target_link_libraries(${EXERCISE} glfw ${OPENGL_LIBS})
 endforeach()
+
+# ── Projeto Final: Diorama Zelda (visualizador unificado) ──
+# Fica num diretório próprio (DioramaZelda/) e tem alvo separado porque o
+# foreach acima assume fontes em src/${EXERCISE}.cpp.
+add_executable(DioramaZelda DioramaZelda/src/main.cpp ${GLAD_C_FILE})
+target_include_directories(DioramaZelda PRIVATE
+    ${CMAKE_SOURCE_DIR}/include/glad
+    ${glm_SOURCE_DIR}
+    ${stb_image_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/DioramaZelda/src)
+target_link_libraries(DioramaZelda glfw ${OPENGL_LIBS})
