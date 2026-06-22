@@ -26,10 +26,6 @@ using namespace std;
 
 using namespace glm;
 
-// ─────────────────────────────────────────────
-// Classe Camera
-// ─────────────────────────────────────────────
-
 class Camera {
 public:
     vec3 position;
@@ -89,10 +85,6 @@ private:
     }
 };
 
-// ─────────────────────────────────────────────
-// Globais
-// ─────────────────────────────────────────────
-
 const GLuint WIDTH = 1000, HEIGHT = 800;
 
 Camera camera(vec3(0.0f, 0.0f, 3.0f));
@@ -103,10 +95,6 @@ bool  firstMouse = true;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
-// ─────────────────────────────────────────────
-// Shaders
-// ─────────────────────────────────────────────
 
 const GLchar* vertexShaderSource = R"(
 #version 400
@@ -138,20 +126,12 @@ void main()
 }
 )";
 
-// ─────────────────────────────────────────────
-// Protótipos
-// ─────────────────────────────────────────────
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 int  setupShader();
 GLuint setupSpriteVAO();
 GLuint loadTexture(const string& filePath);
 void processInput(GLFWwindow* window);
-
-// ─────────────────────────────────────────────
-// Main
-// ─────────────────────────────────────────────
 
 int main()
 {
@@ -240,10 +220,6 @@ int main()
     return 0;
 }
 
-// ─────────────────────────────────────────────
-// Callbacks e input
-// ─────────────────────────────────────────────
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -274,10 +250,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     camera.rotate(xOffset, yOffset);
 }
-
-// ─────────────────────────────────────────────
-// Setup de shader
-// ─────────────────────────────────────────────
 
 int setupShader()
 {
@@ -318,10 +290,6 @@ int setupShader()
     return shaderProgram;
 }
 
-// ─────────────────────────────────────────────
-// Setup do sprite (quad)
-// ─────────────────────────────────────────────
-
 GLuint setupSpriteVAO()
 {
     // Quad unitário centrado na origem, no plano XY
@@ -357,10 +325,6 @@ GLuint setupSpriteVAO()
 
     return VAO;
 }
-
-// ─────────────────────────────────────────────
-// Carregamento de textura
-// ─────────────────────────────────────────────
 
 GLuint loadTexture(const string& filePath)
 {

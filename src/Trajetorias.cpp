@@ -32,10 +32,6 @@ using namespace std;
 
 using namespace glm;
 
-// ─────────────────────────────────────────────
-// Câmera FPS
-// ─────────────────────────────────────────────
-
 class Camera {
 public:
     vec3 position;
@@ -91,10 +87,6 @@ private:
     }
 };
 
-// ─────────────────────────────────────────────
-// Objeto da cena com trajetória
-// ─────────────────────────────────────────────
-
 struct SceneObject {
     string name;
     string objPath;
@@ -111,10 +103,6 @@ struct SceneObject {
     vec3  position     = vec3(0.0f);
 };
 
-// ─────────────────────────────────────────────
-// Globais
-// ─────────────────────────────────────────────
-
 const GLuint WIDTH = 1000, HEIGHT = 800;
 
 Camera camera(vec3(0.0f, 2.0f, 8.0f));
@@ -128,10 +116,6 @@ float lastFrame = 0.0f;
 
 vector<SceneObject> objects;
 int selectedObject = 0;
-
-// ─────────────────────────────────────────────
-// Shaders
-// ─────────────────────────────────────────────
 
 const GLchar* vertexShaderSource = R"(
 #version 400
@@ -166,10 +150,6 @@ void main()
 }
 )";
 
-// ─────────────────────────────────────────────
-// Protótipos
-// ─────────────────────────────────────────────
-
 void   key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void   mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void   processInput(GLFWwindow* window);
@@ -179,10 +159,6 @@ GLuint loadTexture(const string& filePath);
 void   updateTrajectory(SceneObject& obj, float dt);
 bool   loadScene(const string& filePath);
 void   saveScene(const string& filePath);
-
-// ─────────────────────────────────────────────
-// Main
-// ─────────────────────────────────────────────
 
 int main()
 {
@@ -300,7 +276,6 @@ int main()
         glfwPollEvents();
         processInput(window);
 
-        // Atualizar trajetórias de todos os objetos
         for (SceneObject& obj : objects)
             updateTrajectory(obj, deltaTime);
 
@@ -317,8 +292,6 @@ int main()
             if (obj.vao == 0) continue;
 
             bool isSelected = (i == selectedObject);
-
-            // Objeto selecionado fica levemente maior como feedback
             vec3 drawScale = isSelected ? obj.scale * 1.1f : obj.scale;
 
             mat4 model = mat4(1.0f);
@@ -339,10 +312,6 @@ int main()
     glfwTerminate();
     return 0;
 }
-
-// ─────────────────────────────────────────────
-// Atualização de trajetória
-// ─────────────────────────────────────────────
 
 void updateTrajectory(SceneObject& obj, float dt)
 {
@@ -366,10 +335,6 @@ void updateTrajectory(SceneObject& obj, float dt)
     obj.position = mix(obj.controlPoints[obj.currentPoint],
                        obj.controlPoints[next], obj.t);
 }
-
-// ─────────────────────────────────────────────
-// Carregar cena de arquivo
-// ─────────────────────────────────────────────
 
 bool loadScene(const string& filePath)
 {
@@ -407,10 +372,6 @@ bool loadScene(const string& filePath)
     return !objects.empty();
 }
 
-// ─────────────────────────────────────────────
-// Salvar cena em arquivo
-// ─────────────────────────────────────────────
-
 void saveScene(const string& filePath)
 {
     ofstream file(filePath);
@@ -436,16 +397,11 @@ void saveScene(const string& filePath)
     cout << "Trajetórias salvas em " << filePath << endl;
 }
 
-// ─────────────────────────────────────────────
-// Callbacks e input
-// ─────────────────────────────────────────────
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 
-    // Selecionar objeto com TAB
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS && !objects.empty()) {
         selectedObject = (selectedObject + 1) % (int)objects.size();
         cout << "Objeto selecionado: [" << selectedObject << "] "
@@ -453,7 +409,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
              << " (" << objects[selectedObject].controlPoints.size() << " pontos)" << endl;
     }
 
-    // Selecionar objeto por número (1-9)
     if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && action == GLFW_PRESS) {
         int idx = key - GLFW_KEY_1;
         if (idx < (int)objects.size()) {
@@ -464,7 +419,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
     }
 
-    // Adicionar ponto de controle na posição da câmera
     if (key == GLFW_KEY_P && action == GLFW_PRESS && !objects.empty()) {
         SceneObject& obj = objects[selectedObject];
         vec3 pt = camera.position;
@@ -474,7 +428,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
              << " — total: " << obj.controlPoints.size() << " pontos" << endl;
     }
 
-    // Salvar trajetórias
     if (key == GLFW_KEY_O && action == GLFW_PRESS)
         saveScene("../assets/trajetorias.txt");
 }
@@ -503,10 +456,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     camera.rotate(xOffset, yOffset);
 }
-
-// ─────────────────────────────────────────────
-// Setup de shader
-// ─────────────────────────────────────────────
 
 int setupShader()
 {
@@ -545,10 +494,6 @@ int setupShader()
     glDeleteShader(fragmentShader);
     return shaderProgram;
 }
-
-// ─────────────────────────────────────────────
-// Carregamento de OBJ
-// ─────────────────────────────────────────────
 
 int loadSimpleOBJ(const string& filePath, int& nVertices)
 {
@@ -624,10 +569,6 @@ int loadSimpleOBJ(const string& filePath, int& nVertices)
     cout << "OBJ carregado: " << filePath << " (" << nVertices << " vértices)" << endl;
     return VAO;
 }
-
-// ─────────────────────────────────────────────
-// Carregamento de textura
-// ─────────────────────────────────────────────
 
 GLuint loadTexture(const string& filePath)
 {

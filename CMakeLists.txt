@@ -47,6 +47,7 @@ set(EXERCISES
     Hello3D
     TriangleTex
     SpherePhong
+    PhongOBJ
     # Aula3CG
     CuboIluminacao
     TrabalhoRenderizacaoTextura
